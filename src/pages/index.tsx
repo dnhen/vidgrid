@@ -1,11 +1,11 @@
-import Head from 'next/head';
+import { AppShell } from '@/components/AppShell';
+import { PageHeadMetadata } from '@/components/PageHeadMetadata';
 
 const Home = () => {
   return (
     <>
-      <Head>
-        <title>VidGrid</title>
-      </Head>
+      <PageHeadMetadata title="VidGrid" description="Play multiple videos at once" />
+      <AppShell>Inside app</AppShell>
     </>
   );
 };
