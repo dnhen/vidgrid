@@ -1,5 +1,6 @@
 import { Channel } from '@/constants/AusTvChannelsData';
 import { AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box } from '@chakra-ui/react';
+import { ChannelItem } from './ChannelItem';
 
 interface SidebarAccordionItemProps {
   title: string;
@@ -16,9 +17,9 @@ export const SidebarAccordionItem = ({ title, innerData }: SidebarAccordionItemP
         <AccordionIcon color="#EEEEEC" />
       </AccordionButton>
       <AccordionPanel pb={4} color="#EEEEEC">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat.
+        {innerData.map((channel, i) => {
+          return <ChannelItem key={i} name={channel.name} location={channel.location} url={channel.url} />;
+        })}
       </AccordionPanel>
     </AccordionItem>
   );

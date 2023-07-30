@@ -17,7 +17,7 @@ export const VideoDisplay = ({ url }: VideoDisplayProps) => {
 
   return (
     <GridItem w="full" h="full" borderColor="black" borderWidth="2px">
-      <Flex justifyContent="center" alignItems="center" w="full" h="full">
+      <Flex justifyContent="center" alignItems="center" w="full" h="full" bg="gray.200">
         <ReactPlayer
           url={url}
           muted={true}
