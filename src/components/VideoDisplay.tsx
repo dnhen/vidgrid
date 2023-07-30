@@ -1,4 +1,4 @@
-import { GridItem } from '@chakra-ui/react';
+import { Flex, GridItem } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import ReactPlayer from 'react-player';
 
@@ -16,17 +16,22 @@ export const VideoDisplay = ({ url }: VideoDisplayProps) => {
   if (!mounted) return <></>;
 
   return (
-    <GridItem w="full" h="full" bg="blue.200" borderColor="white" borderWidth="2px">
-      <ReactPlayer
-        url={url}
-        config={{
-          file: {
-            attributes: {
-              crossOrigin: 'true',
+    <GridItem w="full" h="full" borderColor="black" borderWidth="2px">
+      <Flex justifyContent="center" alignItems="center" w="full" h="full">
+        <ReactPlayer
+          url={url}
+          muted={true}
+          playing={true}
+          config={{
+            file: {
+              forceHLS: true,
+              attributes: {
+                crossOrigin: 'true',
+              },
             },
-          },
-        }}
-      />
+          }}
+        />
+      </Flex>
     </GridItem>
   );
 };

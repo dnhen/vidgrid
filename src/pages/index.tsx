@@ -9,7 +9,7 @@ const Home = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      setUrl('https://npc.cdn.7livecloud.io/hls/live/SYD1/masterSD.m3u8');
+      setUrl('https://9now-livestreams.akamaized.net/hls/live/2008324/ch9-bne/master.m3u8');
     }, 1000);
   }, []);
 
@@ -18,6 +18,9 @@ const Home = () => {
       <PageHeadMetadata title="VidGrid" description="Play multiple videos at once" />
       <AppShell>
         <Grid templateColumns="repeat(2, 1fr)" w="full" h="full">
+          <VideoDisplay url={url} />
+          <VideoDisplay url={url} />
+          <VideoDisplay url={url} />
           <VideoDisplay url={url} />
         </Grid>
       </AppShell>
