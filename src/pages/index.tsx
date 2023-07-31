@@ -1,27 +1,19 @@
 import { AppShell } from '@/components/AppShell';
 import { PageHeadMetadata } from '@/components/PageHeadMetadata';
 import { VideoDisplay } from '@/components/VideoDisplay';
+import { gridSizeMap } from '@/constants/Config';
+import { useControlsContext } from '@/contexts/useControls';
 import { Grid } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
 
 const Home = () => {
-  const [url, setUrl] = useState('');
-
-  useEffect(() => {
-    setTimeout(() => {
-      setUrl('https://9now-livestreams.akamaized.net/hls/live/2008324/ch9-bne/master.m3u8');
-    }, 1000);
-  }, []);
+  const { gridSize } = useControlsContext();
 
   return (
     <>
       <PageHeadMetadata title="VidGrid" description="Play multiple videos at once" />
       <AppShell>
-        <Grid templateColumns="repeat(2, 1fr)" w="full" h="full">
-          <VideoDisplay url={url} />
-          <VideoDisplay url={url} />
-          <VideoDisplay url={url} />
-          <VideoDisplay url={url} />
+        <Grid templateColumns={`repeat(${gridSizeMap[gridSize]}, 1fr)`} w="full" h="full">
+          {Array(gridSize).fill(<VideoDisplay />)}
         </Grid>
       </AppShell>
     </>

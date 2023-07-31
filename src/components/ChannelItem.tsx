@@ -1,4 +1,5 @@
 import { Flex, Text } from '@chakra-ui/react';
+import { DragEvent } from 'react';
 
 interface ChannelItemProps {
   name: string;
@@ -7,6 +8,12 @@ interface ChannelItemProps {
 }
 
 export const ChannelItem = ({ name, location, url }: ChannelItemProps) => {
+  const handleDragStart = (e: DragEvent) => {
+    e.dataTransfer.setData('videoUrl', url);
+    e.dataTransfer.setData('videoName', `${name} - ${location}`);
+    return;
+  };
+
   return (
     <Flex
       alignItems="center"
@@ -14,6 +21,7 @@ export const ChannelItem = ({ name, location, url }: ChannelItemProps) => {
       py="0.5"
       px="1"
       _hover={{ backgroundColor: 'gray.700', cursor: 'pointer' }}
+      onDragStart={handleDragStart}
       draggable
     >
       <Text>
