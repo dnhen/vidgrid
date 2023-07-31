@@ -2,6 +2,7 @@ import { ControlsAccordionItem } from '@/components/ControlsAccordionItem';
 import { SidebarAccordionItem } from '@/components/SidebarAccordionItem';
 import { useChannelsContext } from '@/contexts/useChannels';
 import { Accordion, Flex, Text } from '@chakra-ui/react';
+import { SettingsAccordionItem } from './SettingsAccordionItem';
 
 export const Sidebar = () => {
   const { channels } = useChannelsContext();
@@ -16,6 +17,7 @@ export const Sidebar = () => {
           return <SidebarAccordionItem key={i} title={channelGroup.category} innerData={channelGroup.channels} />;
         })}
         <ControlsAccordionItem />
+        <SettingsAccordionItem />
       </Accordion>
     </Flex>
   );
