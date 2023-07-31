@@ -9,8 +9,10 @@ interface ChannelItemProps {
 
 export const ChannelItem = ({ name, location, url }: ChannelItemProps) => {
   const handleDragStart = (e: DragEvent) => {
+    // Set the data to be transferred
     e.dataTransfer.setData('videoUrl', url);
     e.dataTransfer.setData('videoName', `${name} - ${location}`);
+
     return;
   };
 

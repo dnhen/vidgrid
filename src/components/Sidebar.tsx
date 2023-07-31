@@ -9,7 +9,7 @@ export const Sidebar = () => {
       <Text color="#EEEEEC" fontSize="2xl" fontWeight="bold">
         VidGrid
       </Text>
-      <Accordion w="full" allowToggle>
+      <Accordion w="full" overflowY="auto" allowToggle>
         {AUS_TV_CHANNELS_DATA.map((channelGroup, i) => {
           return <SidebarAccordionItem key={i} title={channelGroup.category} innerData={channelGroup.channels} />;
         })}
