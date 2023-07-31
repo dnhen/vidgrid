@@ -1,5 +1,5 @@
-import { Channel } from '@/constants/AusTvChannelsData';
-import { AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box } from '@chakra-ui/react';
+import { Channel } from '@/contexts/useChannels';
+import { AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Badge, Flex, Text } from '@chakra-ui/react';
 import { ChannelItem } from './ChannelItem';
 
 interface SidebarAccordionItemProps {
@@ -11,9 +11,10 @@ export const SidebarAccordionItem = ({ title, innerData }: SidebarAccordionItemP
   return (
     <AccordionItem>
       <AccordionButton>
-        <Box as="span" flex="1" textAlign="left" color="#EEEEEC">
-          {title}
-        </Box>
+        <Flex flex="1" justifyContent="space-between" alignItems="center" gap="2">
+          <Text color="#EEEEEC">{title}</Text>
+          <Badge colorScheme="blue">{innerData.length}</Badge>
+        </Flex>
         <AccordionIcon color="#EEEEEC" />
       </AccordionButton>
       <AccordionPanel pb={4} color="#EEEEEC">
