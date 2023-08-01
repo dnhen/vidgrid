@@ -2,14 +2,23 @@ import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 interface ChannelsContextInterface {
-  channels: ChannelGroup[];
+  channels: ChannelsObj;
+  addCategory: (newCategoryName: string) => void;
+  deleteCategory: (deleteCategoryName: string) => void;
+  addChannel: (
+    addChannelCategory: string,
+    newChannelName: string,
+    newChannelLocation: string,
+    newChannelUrl: string
+  ) => void;
+  deleteChannel: (deleteChannelCategory: string, deleteChannelUrl: string) => void;
   clearChannels: () => void;
   getAusTvChannels: () => void;
 }
 
 export const ChannelsContextProvider = ({ children }: ChannelsContextProviderProps) => {
   const { getLocalStorage, setLocalStorage } = useLocalStorage();
-  const [channels, setChannelsHook] = useState<ChannelGroup[]>([]);
+  const [channels, setChannelsHook] = useState<ChannelsObj>({});
 
   // Initial loading of channels
   useEffect(() => {
@@ -26,7 +35,7 @@ export const ChannelsContextProvider = ({ children }: ChannelsContextProviderPro
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // When channels update
-  const setChannels = (newChannels: ChannelGroup[]) => {
+  const setChannels = (newChannels: ChannelsObj) => {
     // Set the channels state
     setChannelsHook(newChannels);
 
@@ -50,8 +59,43 @@ export const ChannelsContextProvider = ({ children }: ChannelsContextProviderPro
     wa: 'Western Australia',
   };
 
+  const addCategory = (newCategoryName: string) => {
+    // Create a new channel object including the new category
+    const newChannelsObject = {
+      ...channels,
+      [newCategoryName]: [],
+    };
+
+    // Set the new channels object
+    return setChannels(newChannelsObject);
+  };
+
+  const deleteCategory = (deleteCategoryName: string) => {
+    // Create new channels object
+    const newChannelsObject = { ...channels };
+    // Remove the key from the channels object
+    delete newChannelsObject[deleteCategoryName];
+
+    // Set the new channels object
+    return setChannels(newChannelsObject);
+  };
+
+  const addChannel = (
+    addChannelCategory: string,
+    newChannelName: string,
+    newChannelLocation: string,
+    newChannelUrl: string
+  ) => {
+    return;
+  };
+
+  const deleteChannel = (deleteChannelCategory: string, deleteChannelUrl: string) => {
+    return;
+  };
+
   const clearChannels = () => {
-    return setChannels([]);
+    // Clear all channels
+    return setChannels({});
   };
 
   // Location specific channels
@@ -82,17 +126,12 @@ export const ChannelsContextProvider = ({ children }: ChannelsContextProviderPro
     }
 
     // Convert channelMap to our final array of categories and channels
-    const channelGroups: ChannelGroup[] = [];
+    const channelGroups: ChannelsObj = {};
 
     channelMap.forEach((channels, category) => {
-      const channelGroup = {
-        category: category,
-        channels: channels.sort((a, b) =>
-          `${a.name} - ${a.location}`.localeCompare(`${b.name} - ${b.location}`, undefined, { numeric: true })
-        ),
-      };
-
-      channelGroups.push(channelGroup);
+      channelGroups[category] = channels.sort((a, b) =>
+        `${a.name} - ${a.location}`.localeCompare(`${b.name} - ${b.location}`, undefined, { numeric: true })
+      );
     });
 
     return setChannels(channelGroups);
@@ -100,6 +139,10 @@ export const ChannelsContextProvider = ({ children }: ChannelsContextProviderPro
 
   const providerValue: ChannelsContextInterface = {
     channels,
+    addCategory,
+    deleteCategory,
+    addChannel,
+    deleteChannel,
     clearChannels,
     getAusTvChannels,
   };
@@ -122,9 +165,8 @@ interface ChannelResponse {
   mjh_master: string;
 }
 
-interface ChannelGroup {
-  category: string;
-  channels: Channel[];
+interface ChannelsObj {
+  [key: string]: Channel[];
 }
 
 export interface Channel {

@@ -13,20 +13,23 @@ import {
   IconButton,
   Text,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const SettingsAccordionItem = () => {
-  const { clearChannels, getAusTvChannels } = useChannelsContext();
+  const { addCategory, deleteCategory, addChannel, deleteChannel, clearChannels, getAusTvChannels } =
+    useChannelsContext();
   const { gridSize, setGridSize, gridSizeMap } = useControlsContext();
   const possibleGridSizes = Object.keys(gridSizeMap).map((key) => parseInt(key));
   const [gridSizeIndex, setGridSizeIndex] = useState<number>(possibleGridSizes.findIndex((size) => size === gridSize));
 
+  // Update grid size index when grid size changes
+  useEffect(() => {
+    setGridSizeIndex(possibleGridSizes.findIndex((size) => size === gridSize));
+  }, [gridSize]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const handleGridSizeDecreaseClick = () => {
     // Get new index
     const newIndex = gridSizeIndex - 1;
-
-    // Set the new grid size index (array ref) to the new Index
-    setGridSizeIndex(newIndex);
 
     // Set the grid size to the new grid size
     return setGridSize(possibleGridSizes[newIndex]);
@@ -36,26 +39,24 @@ export const SettingsAccordionItem = () => {
     // Get new index
     const newIndex = gridSizeIndex + 1;
 
-    // Set the new grid size index (array ref) to the new Index
-    setGridSizeIndex(newIndex);
-
     // Set the grid size to the new grid size
     return setGridSize(possibleGridSizes[newIndex]);
   };
 
   const handleAddCategory = () => {
+    addCategory('Test new cat');
     return;
+  };
+
+  const handleDeleteCategory = () => {
+    return deleteCategory('Test new cat');
   };
 
   const handleAddChannel = () => {
     return;
   };
 
-  const handleEditCategories = () => {
-    return;
-  };
-
-  const handleEditChannels = () => {
+  const handleDeleteChannel = () => {
     return;
   };
 
@@ -105,14 +106,14 @@ export const SettingsAccordionItem = () => {
             <Button size="xs" onClick={handleAddCategory} colorScheme="whiteAlpha" variant="solid" color="#EEEEEC">
               Add Category
             </Button>
+            <Button size="xs" onClick={handleDeleteCategory} colorScheme="whiteAlpha" variant="solid" color="#EEEEEC">
+              Delete Category
+            </Button>
             <Button size="xs" onClick={handleAddChannel} colorScheme="whiteAlpha" variant="solid" color="#EEEEEC">
               Add Channel
             </Button>
-            <Button size="xs" onClick={handleEditCategories} colorScheme="whiteAlpha" variant="solid" color="#EEEEEC">
-              Edit Categories
-            </Button>
-            <Button size="xs" onClick={handleEditChannels} colorScheme="whiteAlpha" variant="solid" color="#EEEEEC">
-              Edit Channels
+            <Button size="xs" onClick={handleDeleteChannel} colorScheme="whiteAlpha" variant="solid" color="#EEEEEC">
+              Delete Channel
             </Button>
             <Button size="xs" onClick={clearChannels} colorScheme="whiteAlpha" variant="solid" color="#EEEEEC">
               Clear Channels

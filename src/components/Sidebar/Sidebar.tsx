@@ -39,8 +39,8 @@ export const Sidebar = () => {
       {/* If not minimized, show accordion buttons */}
       {!minimized && (
         <Accordion w="full" overflowY="auto" allowToggle>
-          {channels.map((channelGroup, i) => {
-            return <SidebarAccordionItem key={i} title={channelGroup.category} innerData={channelGroup.channels} />;
+          {Object.keys(channels).map((key, i) => {
+            return <SidebarAccordionItem key={i} title={key} innerData={channels[key]} />;
           })}
           <ControlsAccordionItem />
           <SettingsAccordionItem />
