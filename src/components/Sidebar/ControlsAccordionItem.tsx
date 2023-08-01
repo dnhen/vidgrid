@@ -8,6 +8,7 @@ import {
   Button,
   Flex,
   Grid,
+  GridItem,
   Text,
 } from '@chakra-ui/react';
 
@@ -40,22 +41,39 @@ export const ControlsAccordionItem = () => {
             <Text fontSize="sm" fontWeight="semibold">
               Active Videos
             </Text>
-            <Grid templateColumns={`repeat(${gridSizeMap[gridSize]}, 1fr)`} w="full" h="full" gap="1">
+            <Grid
+              templateRows={`repeat(${gridSizeMap[gridSize].rows}, 1fr)`}
+              templateColumns={`repeat(${gridSizeMap[gridSize].columns}, 1fr)`}
+              w="full"
+              h="full"
+              gap="1"
+            >
               {Array(gridSize)
                 .fill(0)
                 .map((_, i) => (
-                  <Button
+                  <GridItem
                     key={i}
-                    size="sm"
-                    colorScheme="whiteAlpha"
-                    variant="ghost"
-                    color="#EEEEEC"
-                    borderWidth={isVideoActive(i) ? '1px' : '0px'}
-                    borderColor="red"
-                    onClick={() => handleActiveVideoClick(i)}
+                    w="full"
+                    h="full"
+                    gridRowStart={gridSizeMap[gridSize].elements[i].rowStart}
+                    gridRowEnd={gridSizeMap[gridSize].elements[i].rowEnd}
+                    gridColumnStart={gridSizeMap[gridSize].elements[i].colStart}
+                    gridColumnEnd={gridSizeMap[gridSize].elements[i].colEnd}
                   >
-                    {i + 1}
-                  </Button>
+                    <Button
+                      size="sm"
+                      colorScheme="whiteAlpha"
+                      variant="ghost"
+                      color="#EEEEEC"
+                      borderWidth={isVideoActive(i) ? '1px' : '0px'}
+                      borderColor="red"
+                      onClick={() => handleActiveVideoClick(i)}
+                      w="full"
+                      h="full"
+                    >
+                      {i + 1}
+                    </Button>
+                  </GridItem>
                 ))}
             </Grid>
           </Flex>

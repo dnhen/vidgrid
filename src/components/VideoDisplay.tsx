@@ -9,7 +9,7 @@ interface VideoDisplayProps {
 
 export const VideoDisplay = ({ index }: VideoDisplayProps) => {
   const toast = useToast();
-  const { activeVideos, isVideoActive, removeActiveVideo } = useControlsContext();
+  const { activeVideos, isVideoActive, removeActiveVideo, gridSize, gridSizeMap } = useControlsContext();
   const [mounted, setMounted] = useState<boolean>(false);
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [videoName, setVideoName] = useState<string | null>(null);
@@ -92,6 +92,10 @@ export const VideoDisplay = ({ index }: VideoDisplayProps) => {
       onDragEnter={handleOnDragEnter}
       onDragLeave={handleOnDragLeave}
       onDrop={handleOnDrop}
+      gridRowStart={gridSizeMap[gridSize].elements[index].rowStart}
+      gridRowEnd={gridSizeMap[gridSize].elements[index].rowEnd}
+      gridColumnStart={gridSizeMap[gridSize].elements[index].colStart}
+      gridColumnEnd={gridSizeMap[gridSize].elements[index].colEnd}
     >
       {!!videoName && (
         <Text

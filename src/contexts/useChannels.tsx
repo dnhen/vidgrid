@@ -1,11 +1,38 @@
-import { createContext, useContext, useState } from 'react';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 interface ChannelsContextInterface {
   channels: ChannelGroup[];
+  clearChannels: () => void;
+  getAusTvChannels: () => void;
 }
 
 export const ChannelsContextProvider = ({ children }: ChannelsContextProviderProps) => {
-  const [channels, setChannels] = useState<ChannelGroup[]>([]);
+  const { getLocalStorage, setLocalStorage } = useLocalStorage();
+  const [channels, setChannelsHook] = useState<ChannelGroup[]>([]);
+
+  // Initial loading of channels
+  useEffect(() => {
+    // Get channels from local storage
+    const savedGridSize = getLocalStorage('channels');
+
+    // If saved channels exist, set them
+    if (savedGridSize) {
+      setChannels(savedGridSize);
+    } else {
+      // Otherwise, get them from the API
+      getAusTvChannels();
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // When channels update
+  const setChannels = (newChannels: ChannelGroup[]) => {
+    // Set the channels state
+    setChannelsHook(newChannels);
+
+    // Save the channels to local storage
+    setLocalStorage('channels', newChannels);
+  };
 
   const channelLocationLookup: { [key: string]: string } = {
     ade: 'Adelaide',
@@ -22,6 +49,12 @@ export const ChannelsContextProvider = ({ children }: ChannelsContextProviderPro
     sa: 'South Australia',
     wa: 'Western Australia',
   };
+
+  const clearChannels = () => {
+    return setChannels([]);
+  };
+
+  // Location specific channels
 
   const getAusTvChannels = async () => {
     // Get all TV channels from the API
@@ -65,10 +98,10 @@ export const ChannelsContextProvider = ({ children }: ChannelsContextProviderPro
     return setChannels(channelGroups);
   };
 
-  getAusTvChannels();
-
   const providerValue: ChannelsContextInterface = {
     channels,
+    clearChannels,
+    getAusTvChannels,
   };
 
   return <ChannelsContext.Provider value={providerValue}>{children}</ChannelsContext.Provider>;

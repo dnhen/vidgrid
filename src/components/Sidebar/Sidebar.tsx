@@ -1,5 +1,5 @@
-import { ControlsAccordionItem } from '@/components/ControlsAccordionItem';
-import { SidebarAccordionItem } from '@/components/SidebarAccordionItem';
+import { ControlsAccordionItem } from '@/components/Sidebar/ControlsAccordionItem';
+import { SidebarAccordionItem } from '@/components/Sidebar/SidebarAccordionItem';
 import { useChannelsContext } from '@/contexts/useChannels';
 import { Accordion, Flex, Text } from '@chakra-ui/react';
 import { SettingsAccordionItem } from './SettingsAccordionItem';

@@ -1,3 +1,4 @@
+import { useChannelsContext } from '@/contexts/useChannels';
 import { useControlsContext } from '@/contexts/useControls';
 import { AddIcon, MinusIcon } from '@chakra-ui/icons';
 import {
@@ -15,6 +16,7 @@ import {
 import { useState } from 'react';
 
 export const SettingsAccordionItem = () => {
+  const { clearChannels, getAusTvChannels } = useChannelsContext();
   const { gridSize, setGridSize, gridSizeMap } = useControlsContext();
   const possibleGridSizes = Object.keys(gridSizeMap).map((key) => parseInt(key));
   const [gridSizeIndex, setGridSizeIndex] = useState<number>(possibleGridSizes.findIndex((size) => size === gridSize));
@@ -98,7 +100,7 @@ export const SettingsAccordionItem = () => {
           <Divider color="#EEEEEC" />
           <Flex flexDir="column" justifyContent="center" alignItems="center" gap="1" py="1">
             <Text fontSize="sm" fontWeight="semibold">
-              Data Loading
+              Saved Channels
             </Text>
             <Button size="xs" onClick={handleAddCategory} colorScheme="whiteAlpha" variant="solid" color="#EEEEEC">
               Add Category
@@ -111,6 +113,18 @@ export const SettingsAccordionItem = () => {
             </Button>
             <Button size="xs" onClick={handleEditChannels} colorScheme="whiteAlpha" variant="solid" color="#EEEEEC">
               Edit Channels
+            </Button>
+            <Button size="xs" onClick={clearChannels} colorScheme="whiteAlpha" variant="solid" color="#EEEEEC">
+              Clear Channels
+            </Button>
+          </Flex>
+          <Divider color="#EEEEEC" />
+          <Flex flexDir="column" justifyContent="center" alignItems="center" gap="1" py="1">
+            <Text fontSize="sm" fontWeight="semibold">
+              Intl Channels
+            </Text>
+            <Button size="xs" onClick={getAusTvChannels} colorScheme="whiteAlpha" variant="solid" color="#EEEEEC">
+              Get Australian Channels
             </Button>
           </Flex>
         </Flex>
