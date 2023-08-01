@@ -10,6 +10,7 @@ interface VideoDisplayProps {
 export const VideoDisplay = ({ index }: VideoDisplayProps) => {
   const toast = useToast();
   const { activeVideos, isVideoActive, removeActiveVideo, gridSize, gridSizeMap } = useControlsContext();
+  const { selectedVideo, setSelectedVideo } = useControlsContext();
   const [mounted, setMounted] = useState<boolean>(false);
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [videoName, setVideoName] = useState<string | null>(null);
@@ -56,8 +57,21 @@ export const VideoDisplay = ({ index }: VideoDisplayProps) => {
     const droppedUrl = e.dataTransfer.getData('videoUrl');
     const droppedName = e.dataTransfer.getData('videoName');
 
+    // Play the video
+    return playVideo(droppedUrl, droppedName);
+  };
+
+  const handleOnClick = () => {
+    // Play the selected video
+    playVideo(selectedVideo?.url || '', selectedVideo?.name || '');
+
+    // Reset the selected video
+    return setSelectedVideo(null);
+  };
+
+  const playVideo = (url: string, name: string) => {
     // If the player can not play the URL
-    if (!ReactPlayer.canPlay(droppedUrl)) {
+    if (!ReactPlayer.canPlay(url)) {
       // Toast an error
       return toast({
         title: 'Oh no!',
@@ -74,8 +88,8 @@ export const VideoDisplay = ({ index }: VideoDisplayProps) => {
     // Can play -> set border color back to white, volume to 0, and set video name/video url
     setBorderColor('white');
     setVolume(0);
-    setVideoName(droppedName);
-    return setVideoUrl(droppedUrl);
+    setVideoName(name);
+    return setVideoUrl(url);
   };
 
   if (!mounted) return <></>;
@@ -92,6 +106,7 @@ export const VideoDisplay = ({ index }: VideoDisplayProps) => {
       onDragEnter={handleOnDragEnter}
       onDragLeave={handleOnDragLeave}
       onDrop={handleOnDrop}
+      onClick={handleOnClick}
       gridRowStart={gridSizeMap[gridSize].elements[index].rowStart}
       gridRowEnd={gridSizeMap[gridSize].elements[index].rowEnd}
       gridColumnStart={gridSizeMap[gridSize].elements[index].colStart}
@@ -110,7 +125,7 @@ export const VideoDisplay = ({ index }: VideoDisplayProps) => {
           py="0.5"
           bg="rgba(255, 255, 255, 0.5)"
         >
-          {videoName}
+          {`${videoName} / ${index + 1}`}
         </Text>
       )}
       {!!videoUrl && (

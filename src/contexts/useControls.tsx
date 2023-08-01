@@ -7,6 +7,8 @@ interface ControlsContextInterface {
   gridSize: number;
   setGridSize: (gridSize: number) => void;
   activeVideos: Map<number, boolean>;
+  selectedVideo: { url: string; name: string } | null;
+  setSelectedVideo: (video: { url: string; name: string } | null) => void;
   isVideoActive: (index: number) => boolean;
   addActiveVideo: (index: number) => void;
   removeActiveVideo: (index: number) => void;
@@ -17,6 +19,7 @@ export const ControlsContextProvider = ({ children }: ControlsContextProviderPro
   const { getLocalStorage, setLocalStorage } = useLocalStorage();
   const [gridSize, setGridSizeHook] = useState<number>(DEFAULT_GRID_SIZE);
   const [activeVideos, setActiveVideos] = useState<Map<number, boolean>>(new Map());
+  const [selectedVideo, setSelectedVideo] = useState<{ url: string; name: string } | null>(null);
 
   // Initial loading of grid size
   useEffect(() => {
@@ -170,6 +173,8 @@ export const ControlsContextProvider = ({ children }: ControlsContextProviderPro
     gridSize,
     setGridSize,
     activeVideos,
+    selectedVideo,
+    setSelectedVideo,
     isVideoActive,
     addActiveVideo,
     removeActiveVideo,
