@@ -9,7 +9,8 @@ interface ChannelsContextInterface {
     addChannelCategory: string,
     newChannelName: string,
     newChannelLocation: string,
-    newChannelUrl: string
+    newChannelUrl: string,
+    newChannelLogo: string
   ) => void;
   deleteChannel: (deleteChannelCategory: string, deleteChannelUrl: string) => void;
   clearChannels: () => void;
@@ -73,6 +74,7 @@ export const ChannelsContextProvider = ({ children }: ChannelsContextProviderPro
   const deleteCategory = (deleteCategoryName: string) => {
     // Create new channels object
     const newChannelsObject = { ...channels };
+
     // Remove the key from the channels object
     delete newChannelsObject[deleteCategoryName];
 
@@ -84,13 +86,40 @@ export const ChannelsContextProvider = ({ children }: ChannelsContextProviderPro
     addChannelCategory: string,
     newChannelName: string,
     newChannelLocation: string,
-    newChannelUrl: string
+    newChannelUrl: string,
+    newChannelLogo: string
   ) => {
-    return;
+    // Create new channels object
+    const newChannelsObject = { ...channels };
+
+    // Add the channel to the category
+    newChannelsObject[addChannelCategory] = [
+      ...newChannelsObject[addChannelCategory],
+      {
+        name: newChannelName,
+        location: newChannelLocation,
+        url: newChannelUrl,
+        logo: newChannelLogo,
+      },
+    ];
+
+    // Set the new channels object
+    return setChannels(newChannelsObject);
   };
 
   const deleteChannel = (deleteChannelCategory: string, deleteChannelUrl: string) => {
-    return;
+    // Create new channels object
+    const newChannelsObject = { ...channels };
+    const newChannels = [...newChannelsObject[deleteChannelCategory]];
+
+    // Filter channels to remove the channel
+    const filteredChannels = newChannels.filter((channel) => channel.url !== deleteChannelUrl);
+
+    // Add the channel to the category
+    newChannelsObject[deleteChannelCategory] = filteredChannels;
+
+    // Set the new channels object
+    return setChannels(newChannelsObject);
   };
 
   const clearChannels = () => {

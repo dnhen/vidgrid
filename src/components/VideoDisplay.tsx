@@ -1,5 +1,5 @@
 import { useControlsContext } from '@/contexts/useControls';
-import { GridItem, Text, useToast } from '@chakra-ui/react';
+import { Box, GridItem, Text, useToast } from '@chakra-ui/react';
 import { DragEvent, useEffect, useState } from 'react';
 import ReactPlayer from 'react-player';
 
@@ -63,7 +63,7 @@ export const VideoDisplay = ({ index }: VideoDisplayProps) => {
 
   const handleOnClick = () => {
     // Play the selected video
-    playVideo(selectedVideo?.url || '', selectedVideo?.name || '');
+    selectedVideo?.url && playVideo(selectedVideo?.url || '', selectedVideo?.name || '');
 
     // Reset the selected video
     return setSelectedVideo(null);
@@ -111,7 +111,9 @@ export const VideoDisplay = ({ index }: VideoDisplayProps) => {
       gridRowEnd={gridSizeMap[gridSize].elements[index].rowEnd}
       gridColumnStart={gridSizeMap[gridSize].elements[index].colStart}
       gridColumnEnd={gridSizeMap[gridSize].elements[index].colEnd}
+      zIndex="3"
     >
+      <Box w="full" h="full" zIndex="2" pos="absolute" left="0" top="0" />
       {!!videoName && (
         <Text
           fontSize="xs"
@@ -143,7 +145,7 @@ export const VideoDisplay = ({ index }: VideoDisplayProps) => {
               },
             },
           }}
-          style={{ position: 'absolute', top: 0, left: 0 }}
+          style={{ position: 'absolute', top: 0, left: 0, zIndex: '0' }}
         />
       )}
     </GridItem>
