@@ -1,7 +1,7 @@
 # VidGrid
 A free video / live stream app to simultaneously watch streams or videos.
 
-![image](https://github.com/dnhen/vidgrid/assets/69449713/40ff7090-de6a-4760-8e13-4c5b8cc5df98)
+![image](https://github.com/dnhen/vidgrid/assets/69449713/c7ba8dd6-0bad-40a5-ad06-6905c7e7b755)
 
 ## Basic use
 1. Set the grid size using the 'Settings' tab.
@@ -16,12 +16,12 @@ All your channels are saved and listed on the left side of the screen. Each drop
 ## Controls
 The 'Controls' tab is your control panel. Selecting a button in this (displayed in the same layout as the videos) will enable the audio for that video.
 
-![image](https://github.com/dnhen/vidgrid/assets/69449713/8a984807-32fe-4422-adfd-fa129484d8ac)
+![image](https://github.com/dnhen/vidgrid/assets/69449713/21c03f60-9f02-4804-8ae8-6c976781a8d2)
 
 ## Settings
 All of your channels are listed on the left in categories. All of the settings to change this interface is located in the 'Settings' tab:
 
-![image](https://github.com/dnhen/vidgrid/assets/69449713/556c8ac8-287f-4f27-9f24-fb7f1183c056)
+![image](https://github.com/dnhen/vidgrid/assets/69449713/73e957ed-f9e5-4de1-b5f6-294e32d5b4e3)
 
 - Change the grid size by using the + and - buttons;
 - Add channels and categories, as well as remove channels and categories by selecting the respective buttons;
