@@ -1,4 +1,6 @@
 # VidGrid
+https://vidgrid-ten.vercel.app/
+
 A free video / live stream app to simultaneously watch streams or videos.
 
 ![image](https://github.com/dnhen/vidgrid/assets/69449713/c7ba8dd6-0bad-40a5-ad06-6905c7e7b755)
