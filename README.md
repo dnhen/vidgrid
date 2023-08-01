@@ -1,38 +1,28 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# VidGrid
+A free video / live stream app to simultaneously watch streams or videos.
 
-## Getting Started
+![image](https://github.com/dnhen/vidgrid/assets/69449713/40ff7090-de6a-4760-8e13-4c5b8cc5df98)
 
-First, run the development server:
+## Basic use
+1. Set the grid size using the 'Settings' tab.
+2. Drop down on a category, then drag that channel onto a video square. The video/stream will start to play.
+3. Select the 'Controls' tab and activate the video by clicking on the respective square (this will enable the audio).
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+**Note:** the red '<' button next to the title text in the top left will minimize the sidebar, the buttons along the side are to activate the respective videos (the numbers correspond to the number on the video).
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Channels
+All your channels are saved and listed on the left side of the screen. Each dropdown is a 'Category'. These can be edited in the 'Settings' dropdown.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Controls
+The 'Controls' tab is your control panel. Selecting a button in this (displayed in the same layout as the videos) will enable the audio for that video.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+![image](https://github.com/dnhen/vidgrid/assets/69449713/8a984807-32fe-4422-adfd-fa129484d8ac)
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Settings
+All of your channels are listed on the left in categories. All of the settings to change this interface is located in the 'Settings' tab:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+![image](https://github.com/dnhen/vidgrid/assets/69449713/556c8ac8-287f-4f27-9f24-fb7f1183c056)
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Change the grid size by using the + and - buttons;
+- Add channels and categories, as well as remove channels and categories by selecting the respective buttons;
+- **Note:** Australian TV channels are loaded by default. You can clear these channels by clicking 'Clear Channels' and you can re-load these channels by clicking 'Get Australian Channels'. This will clear your previous channel list.
