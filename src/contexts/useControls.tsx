@@ -1,4 +1,5 @@
 import { useLocalStorage } from '@/hooks/useLocalStorage';
+import posthog from 'posthog-js';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 const DEFAULT_GRID_SIZE = 4;
@@ -39,6 +40,11 @@ export const ControlsContextProvider = ({ children }: ControlsContextProviderPro
   const setGridSize = (newSize: number) => {
     // Set the grid size state
     setGridSizeHook(newSize);
+
+    // Send event to posthog
+    posthog.capture('grid_size_updated', {
+      grid_size: newSize,
+    });
 
     // Save the grid size to local storage
     setLocalStorage('gridSize', newSize);

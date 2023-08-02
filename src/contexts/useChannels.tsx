@@ -1,4 +1,5 @@
 import { useLocalStorage } from '@/hooks/useLocalStorage';
+import posthog from 'posthog-js';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 interface ChannelsContextInterface {
@@ -67,6 +68,11 @@ export const ChannelsContextProvider = ({ children }: ChannelsContextProviderPro
       [newCategoryName]: [],
     };
 
+    // Send event to posthog
+    posthog.capture('category_added', {
+      category_name: newCategoryName,
+    });
+
     // Set the new channels object
     return setChannels(newChannelsObject);
   };
@@ -77,6 +83,11 @@ export const ChannelsContextProvider = ({ children }: ChannelsContextProviderPro
 
     // Remove the key from the channels object
     delete newChannelsObject[deleteCategoryName];
+
+    // Send event to posthog
+    posthog.capture('category_deleted', {
+      category_name: deleteCategoryName,
+    });
 
     // Set the new channels object
     return setChannels(newChannelsObject);
@@ -103,6 +114,15 @@ export const ChannelsContextProvider = ({ children }: ChannelsContextProviderPro
       },
     ];
 
+    // Send event to posthog
+    posthog.capture('channel_added', {
+      category_name: addChannelCategory,
+      channel_name: newChannelName,
+      channel_location: newChannelLocation,
+      channel_url: newChannelUrl,
+      channel_logo: newChannelLogo,
+    });
+
     // Set the new channels object
     return setChannels(newChannelsObject);
   };
@@ -118,11 +138,20 @@ export const ChannelsContextProvider = ({ children }: ChannelsContextProviderPro
     // Add the channel to the category
     newChannelsObject[deleteChannelCategory] = filteredChannels;
 
+    // Send event to posthog
+    posthog.capture('channel_deleted', {
+      category_name: deleteChannelCategory,
+      channel_url: deleteChannelUrl,
+    });
+
     // Set the new channels object
     return setChannels(newChannelsObject);
   };
 
   const clearChannels = () => {
+    // Send event to posthog
+    posthog.capture('channels_cleared');
+
     // Clear all channels
     return setChannels({});
   };
