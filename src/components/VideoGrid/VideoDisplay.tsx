@@ -161,7 +161,7 @@ export const VideoDisplay = ({ index }: VideoDisplayProps) => {
           gap="1"
         >
           <Icon as={SmallCloseIcon} boxSize="16px" cursor="pointer" onClick={stopVideo} />
-          <Text fontSize="xs" fontWeight="semibold" color="black">
+          <Text fontSize="xs" fontWeight="semibold" color="black" noOfLines={1}>
             {`${videoName} / ${index + 1}`}
           </Text>
         </Flex>
