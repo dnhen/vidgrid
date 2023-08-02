@@ -1,5 +1,7 @@
 import { useControlsContext } from '@/contexts/useControls';
-import { Box, GridItem, Text, useToast } from '@chakra-ui/react';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { SmallCloseIcon } from '@chakra-ui/icons';
+import { Box, Flex, GridItem, Icon, Text, useToast } from '@chakra-ui/react';
 import { DragEvent, useEffect, useState } from 'react';
 import ReactPlayer from 'react-player';
 
@@ -9,6 +11,7 @@ interface VideoDisplayProps {
 
 export const VideoDisplay = ({ index }: VideoDisplayProps) => {
   const toast = useToast();
+  const { getLocalStorage, setLocalStorage, deleteLocalStorage } = useLocalStorage();
   const { activeVideos, isVideoActive, removeActiveVideo, gridSize, gridSizeMap } = useControlsContext();
   const { selectedVideo, setSelectedVideo } = useControlsContext();
   const [mounted, setMounted] = useState<boolean>(false);
@@ -20,7 +23,16 @@ export const VideoDisplay = ({ index }: VideoDisplayProps) => {
   useEffect(() => {
     // Wait for client to load before loading any videos
     setMounted(true);
-  }, []);
+
+    // Get the video from local storage
+    const savedVideo = getLocalStorage(`video-${index}`);
+
+    // If the video exists in local storage
+    if (!!savedVideo) {
+      // Play the video
+      playVideo(savedVideo.videoUrl, savedVideo.videoName);
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     isVideoActive(index) ? activateVideo() : deactivateVideo();
@@ -77,7 +89,7 @@ export const VideoDisplay = ({ index }: VideoDisplayProps) => {
         title: 'Oh no!',
         description: 'Unable to play this URL. Try another one.',
         status: 'error',
-        duration: 5000,
+        duration: 3000,
         isClosable: true,
       });
     }
@@ -89,7 +101,28 @@ export const VideoDisplay = ({ index }: VideoDisplayProps) => {
     setBorderColor('white');
     setVolume(0);
     setVideoName(name);
+
+    // Save video to local storage
+    setLocalStorage(`video-${index}`, { videoUrl: url, videoName: name });
+
     return setVideoUrl(url);
+  };
+
+  const stopVideo = () => {
+    // Stop the video
+    setVideoUrl(null);
+    setVideoName(null);
+
+    // Remove video from local storage
+    deleteLocalStorage(`video-${index}`);
+
+    return toast({
+      title: 'Video stopped',
+      description: 'The video has been stopped.',
+      status: 'info',
+      duration: 3000,
+      isClosable: true,
+    });
   };
 
   if (!mounted) return <></>;
@@ -113,22 +146,25 @@ export const VideoDisplay = ({ index }: VideoDisplayProps) => {
       gridColumnEnd={gridSizeMap[gridSize].elements[index].colEnd}
       zIndex="3"
     >
-      <Box w="full" h="full" zIndex="2" pos="absolute" left="0" top="0" />
+      <Box w="full" h="full" zIndex="1" pos="absolute" left="0" top="0" />
       {!!videoName && (
-        <Text
-          fontSize="xs"
-          fontWeight="semibold"
-          color="black"
+        <Flex
+          justifyContent="center"
+          alignItems="center"
           pos="absolute"
           left="0"
           bottom="0"
-          zIndex={1}
+          zIndex={2}
           px="1"
           py="0.5"
           bg="rgba(255, 255, 255, 0.5)"
+          gap="1"
         >
-          {`${videoName} / ${index + 1}`}
-        </Text>
+          <Icon as={SmallCloseIcon} boxSize="16px" cursor="pointer" onClick={stopVideo} />
+          <Text fontSize="xs" fontWeight="semibold" color="black">
+            {`${videoName} / ${index + 1}`}
+          </Text>
+        </Flex>
       )}
       {!!videoUrl && (
         <ReactPlayer

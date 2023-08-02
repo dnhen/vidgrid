@@ -4,8 +4,8 @@ import { useChannelsContext } from '@/contexts/useChannels';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { Accordion, Divider, Flex, Icon, IconButton, Text } from '@chakra-ui/react';
 import { useState } from 'react';
-import { ActiveVideoController } from './ActiveVideoController';
-import { SettingsAccordionItem } from './Settings/SettingsAccordionItem';
+import { ActiveVideoController } from './Sidebar/ActiveVideoController';
+import { SettingsAccordionItem } from './Sidebar/Settings/SettingsAccordionItem';
 
 export const Sidebar = () => {
   const { channels } = useChannelsContext();

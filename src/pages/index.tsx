@@ -1,13 +1,13 @@
 import { AppShell } from '@/components/AppShell';
 import { PageHeadMetadata } from '@/components/PageHeadMetadata';
-import { VidGrid } from '@/components/VidGrid';
+import { VideoGrid } from '@/components/VideoGrid';
 
 const Home = () => {
   return (
     <>
       <PageHeadMetadata title="VidGrid" description="Play multiple videos at once" />
       <AppShell>
-        <VidGrid />
+        <VideoGrid />
       </AppShell>
     </>
   );

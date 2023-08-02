@@ -1,4 +1,4 @@
-import { Sidebar } from '@/components/Sidebar/Sidebar';
+import { Sidebar } from '@/components/Sidebar';
 import { Box, Flex } from '@chakra-ui/react';
 
 interface AppShellProps {

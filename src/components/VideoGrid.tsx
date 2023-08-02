@@ -1,8 +1,8 @@
 import { useControlsContext } from '@/contexts/useControls';
 import { Grid } from '@chakra-ui/react';
-import { VideoDisplay } from './VideoDisplay';
+import { VideoDisplay } from './VideoGrid/VideoDisplay';
 
-export const VidGrid = () => {
+export const VideoGrid = () => {
   const { gridSize, gridSizeMap } = useControlsContext();
 
   return (

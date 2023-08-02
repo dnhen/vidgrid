@@ -12,20 +12,20 @@ export const useLocalStorage = () => {
     return localStorage.setItem(key, JSON.stringify(data));
   };
 
+  const deleteLocalStorage = (key: string) => {
+    // Remove item from local storage
+    return localStorage.removeItem(key);
+  };
+
   const clearLocalStorage = () => {
     // Clear all data from local storage
     return localStorage.clear();
   };
 
-  const existsInLocalStorage = (key: string) => {
-    // Remove item from local storage
-    return localStorage.removeItem(key);
-  };
-
   return {
     getLocalStorage,
     setLocalStorage,
+    deleteLocalStorage,
     clearLocalStorage,
-    existsInLocalStorage,
   };
 };
