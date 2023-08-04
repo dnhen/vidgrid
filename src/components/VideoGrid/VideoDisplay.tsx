@@ -159,7 +159,7 @@ export const VideoDisplay = ({ index }: VideoDisplayProps) => {
       zIndex="3"
     >
       {!videoUrl && <QuickPlayInput handleQuickPlaySubmit={handleQuickPlaySubmit} setQuickPlayUrl={setQuickPlayUrl} />}
-      <Box w="full" h="full" zIndex="1" pos="absolute" left="0" top="0" />
+      <Box w="full" h="full" zIndex="1" pos="absolute" left="0" top="0" pointerEvents="none" />
       {!!videoName && (
         <Flex
           justifyContent="center"
@@ -172,8 +172,9 @@ export const VideoDisplay = ({ index }: VideoDisplayProps) => {
           py="0.5"
           bg="rgba(255, 255, 255, 0.5)"
           gap="1"
+          pointerEvents="none"
         >
-          <Icon as={SmallCloseIcon} boxSize="16px" cursor="pointer" onClick={stopVideo} />
+          <Icon as={SmallCloseIcon} boxSize="16px" cursor="pointer" onClick={stopVideo} pointerEvents="all" />
           <Text fontSize="xs" fontWeight="semibold" color="black" noOfLines={1}>
             {`${videoName} / ${index + 1}`}
           </Text>
@@ -194,7 +195,7 @@ export const VideoDisplay = ({ index }: VideoDisplayProps) => {
               },
             },
           }}
-          style={{ position: 'absolute', top: 0, left: 0, zIndex: '0' }}
+          style={{ position: 'absolute', top: 0, left: 0, zIndex: '0', pointerEvents: 'none' }}
         />
       )}
     </GridItem>

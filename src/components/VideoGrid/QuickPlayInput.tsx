@@ -8,7 +8,7 @@ interface QuickPlayInputProps {
 
 export const QuickPlayInput = ({ handleQuickPlaySubmit, setQuickPlayUrl }: QuickPlayInputProps) => {
   return (
-    <Box as="form" onSubmit={handleQuickPlaySubmit}>
+    <Box as="form" onSubmit={handleQuickPlaySubmit} pointerEvents="none">
       <InputGroup
         opacity="0.6"
         borderColor="#EEEEEC"
@@ -28,6 +28,7 @@ export const QuickPlayInput = ({ handleQuickPlaySubmit, setQuickPlayUrl }: Quick
           placeholder="https://youtube.com/12345"
           color="#EEEEEF"
           onChange={(e) => setQuickPlayUrl(e.target.value)}
+          pointerEvents="all"
         />
       </InputGroup>
     </Box>
