@@ -1,5 +1,5 @@
 # VidGrid
-https://vidgrid-ten.vercel.app/
+http://vidgrid.dnhen.com/
 
 A free video / live stream app to simultaneously watch streams or videos.
 
