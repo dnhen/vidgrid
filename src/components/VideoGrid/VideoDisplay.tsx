@@ -2,8 +2,9 @@ import { useControlsContext } from '@/contexts/useControls';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { SmallCloseIcon } from '@chakra-ui/icons';
 import { Box, Flex, GridItem, Icon, Text, useToast } from '@chakra-ui/react';
-import { DragEvent, useEffect, useState } from 'react';
+import { DragEvent, FormEvent, useEffect, useState } from 'react';
 import ReactPlayer from 'react-player';
+import { QuickPlayInput } from './QuickPlayInput';
 
 interface VideoDisplayProps {
   index: number;
@@ -19,6 +20,7 @@ export const VideoDisplay = ({ index }: VideoDisplayProps) => {
   const [videoName, setVideoName] = useState<string | null>(null);
   const [borderColor, setBorderColor] = useState<string>('#EEEEEC');
   const [volume, setVolume] = useState<number>(0);
+  const [quickPlayUrl, setQuickPlayUrl] = useState<string>('');
 
   useEffect(() => {
     // Wait for client to load before loading any videos
@@ -125,6 +127,16 @@ export const VideoDisplay = ({ index }: VideoDisplayProps) => {
     });
   };
 
+  const handleQuickPlaySubmit = (e: FormEvent<HTMLDivElement>) => {
+    e.preventDefault();
+
+    // Play the video
+    playVideo(quickPlayUrl, 'Quick Play');
+
+    // Reset the quick play url
+    return setQuickPlayUrl('');
+  };
+
   if (!mounted) return <></>;
 
   return (
@@ -146,6 +158,7 @@ export const VideoDisplay = ({ index }: VideoDisplayProps) => {
       gridColumnEnd={gridSizeMap[gridSize].elements[index].colEnd}
       zIndex="3"
     >
+      {!videoUrl && <QuickPlayInput handleQuickPlaySubmit={handleQuickPlaySubmit} setQuickPlayUrl={setQuickPlayUrl} />}
       <Box w="full" h="full" zIndex="1" pos="absolute" left="0" top="0" />
       {!!videoName && (
         <Flex
