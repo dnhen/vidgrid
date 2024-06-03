@@ -29,7 +29,7 @@ export const SettingsAccordionItem = () => {
   } = useDisclosure();
   const { isOpen: isOpenAddChannel, onOpen: onOpenAddChannel, onClose: onCloseAddChannel } = useDisclosure();
   const { isOpen: isOpenDeleteChannel, onOpen: onOpenDeleteChannel, onClose: onCloseDeleteChannel } = useDisclosure();
-  const { clearChannels, getAusTvChannels } = useChannelsContext();
+  const { clearChannels, getMasterChannels, getAusTvChannels } = useChannelsContext();
   const { gridSize, setGridSize, gridSizeMap } = useControlsContext();
   const possibleGridSizes = Object.keys(gridSizeMap).map((key) => parseInt(key));
   const [gridSizeIndex, setGridSizeIndex] = useState<number>(possibleGridSizes.findIndex((size) => size === gridSize));
@@ -118,8 +118,11 @@ export const SettingsAccordionItem = () => {
             <Divider color="#EEEEEC" />
             <Flex flexDir="column" justifyContent="center" alignItems="center" gap="1" py="1">
               <Text fontSize="sm" fontWeight="semibold">
-                Intl Channels
+                Pre-Configured Channels
               </Text>
+              <Button size="xs" onClick={getMasterChannels} colorScheme="whiteAlpha" variant="solid" color="#EEEEEC">
+                Get Master Channels
+              </Button>
               <Button size="xs" onClick={getAusTvChannels} colorScheme="whiteAlpha" variant="solid" color="#EEEEEC">
                 Get Australian Channels
               </Button>

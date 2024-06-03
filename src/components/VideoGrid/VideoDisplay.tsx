@@ -1,3 +1,5 @@
+import { CurrentTime } from '@/components/CustomVideos/CurrentTime';
+import { MASTER_CHANNELS } from '@/contexts/useChannels';
 import { useControlsContext } from '@/contexts/useControls';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { SmallCloseIcon } from '@chakra-ui/icons';
@@ -85,7 +87,7 @@ export const VideoDisplay = ({ index }: VideoDisplayProps) => {
 
   const playVideo = (url: string, name: string) => {
     // If the player can not play the URL
-    if (!ReactPlayer.canPlay(url)) {
+    if (!ReactPlayer.canPlay(url) && !Object.values(MASTER_CHANNELS).includes(url)) {
       // Toast an error
       return toast({
         title: 'Oh no!',
@@ -137,6 +139,32 @@ export const VideoDisplay = ({ index }: VideoDisplayProps) => {
     return setQuickPlayUrl('');
   };
 
+  const videoRenderer = (videoUrl: string) => {
+    switch (videoUrl) {
+      case 'current_time':
+        return <CurrentTime />;
+    }
+
+    return (
+      <ReactPlayer
+        width="100%"
+        height="100%"
+        url={videoUrl}
+        volume={volume}
+        playing={true}
+        config={{
+          file: {
+            forceHLS: true,
+            attributes: {
+              crossOrigin: 'true',
+            },
+          },
+        }}
+        style={{ position: 'absolute', top: 0, left: 0, zIndex: '0', pointerEvents: 'none' }}
+      />
+    );
+  };
+
   if (!mounted) return <></>;
 
   return (
@@ -180,24 +208,7 @@ export const VideoDisplay = ({ index }: VideoDisplayProps) => {
           </Text>
         </Flex>
       )}
-      {!!videoUrl && (
-        <ReactPlayer
-          width="100%"
-          height="100%"
-          url={videoUrl}
-          volume={volume}
-          playing={true}
-          config={{
-            file: {
-              forceHLS: true,
-              attributes: {
-                crossOrigin: 'true',
-              },
-            },
-          }}
-          style={{ position: 'absolute', top: 0, left: 0, zIndex: '0', pointerEvents: 'none' }}
-        />
-      )}
+      {!!videoUrl && videoRenderer(videoUrl)}
     </GridItem>
   );
 };

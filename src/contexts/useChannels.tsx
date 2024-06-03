@@ -2,6 +2,10 @@ import { useLocalStorage } from '@/hooks/useLocalStorage';
 import posthog from 'posthog-js';
 import { createContext, useContext, useEffect, useState } from 'react';
 
+export const MASTER_CHANNELS: { [key: string]: string } = {
+  'Current Time': 'current_time',
+};
+
 interface ChannelsContextInterface {
   channels: ChannelsObj;
   addCategory: (newCategoryName: string) => void;
@@ -15,6 +19,7 @@ interface ChannelsContextInterface {
   ) => void;
   deleteChannel: (deleteChannelCategory: string, deleteChannelUrl: string) => void;
   clearChannels: () => void;
+  getMasterChannels: () => void;
   getAusTvChannels: () => void;
 }
 
@@ -34,6 +39,9 @@ export const ChannelsContextProvider = ({ children }: ChannelsContextProviderPro
       // Otherwise, get them from the API
       getAusTvChannels();
     }
+
+    // Add master channels
+    getMasterChannels();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // When channels update
@@ -105,7 +113,7 @@ export const ChannelsContextProvider = ({ children }: ChannelsContextProviderPro
 
     // Add the channel to the category
     newChannelsObject[addChannelCategory] = [
-      ...newChannelsObject[addChannelCategory],
+      ...(newChannelsObject[addChannelCategory] ?? []),
       {
         name: newChannelName,
         location: newChannelLocation,
@@ -156,6 +164,22 @@ export const ChannelsContextProvider = ({ children }: ChannelsContextProviderPro
     return setChannels({});
   };
 
+  // Populate master channel list
+  const getMasterChannels = async () => {
+    addCategory('Master');
+
+    // Add master channels
+    setChannels({
+      ...channels,
+      Master: Object.keys(MASTER_CHANNELS).map((name) => ({
+        name: name,
+        location: 'Global',
+        url: MASTER_CHANNELS[name],
+        logo: '',
+      })),
+    });
+  };
+
   // Location specific channels
 
   const getAusTvChannels = async () => {
@@ -202,6 +226,7 @@ export const ChannelsContextProvider = ({ children }: ChannelsContextProviderPro
     addChannel,
     deleteChannel,
     clearChannels,
+    getMasterChannels,
     getAusTvChannels,
   };
 
