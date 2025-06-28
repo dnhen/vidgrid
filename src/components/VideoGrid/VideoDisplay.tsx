@@ -4,6 +4,7 @@ import { useControlsContext } from '@/contexts/useControls';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { SmallCloseIcon } from '@chakra-ui/icons';
 import { Box, Flex, GridItem, Icon, Text, useToast } from '@chakra-ui/react';
+import posthog from 'posthog-js';
 import { DragEvent, FormEvent, useEffect, useState } from 'react';
 import ReactPlayer from 'react-player';
 import { QuickPlayInput } from './QuickPlayInput';
@@ -74,7 +75,12 @@ export const VideoDisplay = ({ index }: VideoDisplayProps) => {
     const droppedName = e.dataTransfer.getData('videoName');
 
     // Play the video
-    return playVideo(droppedUrl, droppedName);
+    playVideo(droppedUrl, droppedName);
+
+    return posthog.capture('video_dropped', {
+      channel_url: droppedUrl,
+      channel_name: droppedName,
+    });
   };
 
   const handleOnClick = () => {
@@ -136,7 +142,11 @@ export const VideoDisplay = ({ index }: VideoDisplayProps) => {
     playVideo(quickPlayUrl, 'Quick Play');
 
     // Reset the quick play url
-    return setQuickPlayUrl('');
+    setQuickPlayUrl('');
+
+    return posthog.capture('video_quick_play', {
+      channel_url: quickPlayUrl,
+    });
   };
 
   const videoRenderer = (videoUrl: string) => {
