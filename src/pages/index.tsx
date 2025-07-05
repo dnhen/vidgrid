@@ -6,7 +6,10 @@ import { Welcomer } from '@/components/Welcomer';
 const Home = () => {
   return (
     <>
-      <PageHeadMetadata title="VidGrid" description="Play multiple videos at once" />
+      <PageHeadMetadata
+        title="VidGrid | Watch multiple videos at once in your browser for free"
+        description="Watch multiple videos at once in your browser for free"
+      />
       <Welcomer />
       <AppShell>
         <VideoGrid />

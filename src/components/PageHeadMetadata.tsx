@@ -15,7 +15,7 @@ export const PageHeadMetadata = ({ title, description }: PageHeadMetadataProps) 
       <meta name="og:title" property="og:title" content={title} />
       <meta name="og:description" property="og:description" content={description} />
       <meta property="og:type" content="website" />
-      <meta property="og:site_name" content="TheWebsiteMate." />
+      <meta property="og:site_name" content="VidGrid" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta property="og:image" content="thumbnail.png" />
