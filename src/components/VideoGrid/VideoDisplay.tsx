@@ -2,7 +2,7 @@ import { CurrentTime } from '@/components/CustomVideos/CurrentTime';
 import { MASTER_CHANNELS } from '@/contexts/useChannels';
 import { useControlsContext } from '@/contexts/useControls';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
-import { SmallCloseIcon } from '@chakra-ui/icons';
+import { ArrowDownIcon, ArrowUpIcon, SmallCloseIcon } from '@chakra-ui/icons';
 import { Box, Flex, GridItem, Icon, Text, useToast } from '@chakra-ui/react';
 import posthog from 'posthog-js';
 import { DragEvent, FormEvent, useEffect, useState } from 'react';
@@ -18,6 +18,7 @@ export const VideoDisplay = ({ index }: VideoDisplayProps) => {
   const { getLocalStorage, setLocalStorage, deleteLocalStorage } = useLocalStorage();
   const { activeVideos, isVideoActive, removeActiveVideo, gridSize, gridSizeMap } = useControlsContext();
   const { selectedVideo, setSelectedVideo } = useControlsContext();
+  const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
   const [mounted, setMounted] = useState<boolean>(false);
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [videoName, setVideoName] = useState<string | null>(null);
@@ -175,6 +176,15 @@ export const VideoDisplay = ({ index }: VideoDisplayProps) => {
     );
   };
 
+  const gridSizeData = {
+    gridRowStart: isFullScreen ? 1 : gridSizeMap[gridSize].elements[index].rowStart,
+    gridRowEnd: isFullScreen ? `span ${gridSizeMap[gridSize].rows}` : gridSizeMap[gridSize].elements[index].rowEnd,
+    gridColumnStart: isFullScreen ? 1 : gridSizeMap[gridSize].elements[index].colStart,
+    gridColumnEnd: isFullScreen
+      ? `span ${gridSizeMap[gridSize].columns}`
+      : gridSizeMap[gridSize].elements[index].colEnd,
+  };
+
   if (!mounted) return <></>;
 
   return (
@@ -190,33 +200,56 @@ export const VideoDisplay = ({ index }: VideoDisplayProps) => {
       onDragLeave={handleOnDragLeave}
       onDrop={handleOnDrop}
       onClick={handleOnClick}
-      gridRowStart={gridSizeMap[gridSize].elements[index].rowStart}
-      gridRowEnd={gridSizeMap[gridSize].elements[index].rowEnd}
-      gridColumnStart={gridSizeMap[gridSize].elements[index].colStart}
-      gridColumnEnd={gridSizeMap[gridSize].elements[index].colEnd}
-      zIndex="3"
+      gridRowStart={gridSizeData.gridRowStart}
+      gridRowEnd={gridSizeData.gridRowEnd}
+      gridColumnStart={gridSizeData.gridColumnStart}
+      gridColumnEnd={gridSizeData.gridColumnEnd}
+      zIndex={isFullScreen ? '99' : '3'}
     >
       {!videoUrl && <QuickPlayInput handleQuickPlaySubmit={handleQuickPlaySubmit} setQuickPlayUrl={setQuickPlayUrl} />}
       <Box w="full" h="full" zIndex="1" pos="absolute" left="0" top="0" pointerEvents="none" />
       {!!videoName && (
-        <Flex
-          justifyContent="center"
-          alignItems="center"
-          pos="absolute"
-          left="0"
-          bottom="0"
-          zIndex={2}
-          px="1"
-          py="0.5"
-          bg="rgba(255, 255, 255, 0.5)"
-          gap="1"
-          pointerEvents="none"
-        >
-          <Icon as={SmallCloseIcon} boxSize="16px" cursor="pointer" onClick={stopVideo} pointerEvents="all" />
-          <Text fontSize="xs" fontWeight="semibold" color="black" noOfLines={1}>
-            {`${videoName} / ${index + 1}`}
-          </Text>
-        </Flex>
+        <>
+          <Flex
+            justifyContent="center"
+            alignItems="center"
+            pos="absolute"
+            left="0"
+            bottom="0"
+            zIndex={2}
+            px="1"
+            py="0.5"
+            bg="rgba(255, 255, 255, 0.5)"
+            gap="1"
+            pointerEvents="none"
+          >
+            <Icon as={SmallCloseIcon} boxSize="16px" cursor="pointer" onClick={stopVideo} pointerEvents="all" />
+            <Text fontSize="xs" fontWeight="semibold" color="black" noOfLines={1}>
+              {`${videoName} / ${index + 1}`}
+            </Text>
+          </Flex>
+          <Flex
+            justifyContent="center"
+            alignItems="center"
+            pos="absolute"
+            right="0"
+            bottom="0"
+            zIndex={2}
+            px="1"
+            py="0.5"
+            bg="rgba(255, 255, 255, 0.5)"
+            gap="1"
+            pointerEvents="none"
+          >
+            <Icon
+              as={isFullScreen ? ArrowDownIcon : ArrowUpIcon}
+              boxSize="16px"
+              cursor="pointer"
+              onClick={() => setIsFullScreen(!isFullScreen)}
+              pointerEvents="all"
+            />
+          </Flex>
+        </>
       )}
       {!!videoUrl && videoRenderer(videoUrl)}
     </GridItem>
